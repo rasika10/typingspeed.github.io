@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Typing Test Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <link rel="icon" href="s.png">
+    <style media="screen">
+
+    .container{
+      align:center;
+      background-color: #e6ffff;
+       border-radius:20px;
+       padding: 40px;
+       width:60%;
+       height: 60%;
+    }
+    #btn{
+        display: fade;
+        font-weight: bold;
+        color:white;
+        background-color: #009999;
+        text-align: center;
+      text-decoration: none;
+      border: none;
+      padding: 15px 32px;
+        }
+    </style>
+  </head>
+   <body>
+
+      <center><h1 style="color:#009999; padding-bottom:30px; padding-top:40px;"> Test your Speed </h1><br>
+
+  <div id="demo"></div>
+      <div class="container">
+
+  <h2 id="msg" style="font-family: Arial, Helvetica, sans-serif; text-align: justify;   font-size: 15px; color:#009999;"></h2>
+
+      <textarea id="mywords" rows="10" cols="80" style="border-color:#009999; margin-bottom:15px;" ></textarea><br>
+      <button  id="btn" class="mainbtn">Start</button>
+
+    </div>
+
+<script>
+
+   const setOfwords = [
+"Sunset is the time of day when our sky meets the outer space solar winds. There are blue, pink, and purple swirls, spinning and twisting, like clouds of balloons caught in a whirlwind. The sun moves slowly to hide behind the line of horizon, while the moon races to take its place in prominence atop the night sky. People slow to a crawl, entranced, fully forgetting the deeds that must still be done. There is a coolness, a calmness, when the sun does set.",
+"On July 16, 1969, the Apollo 11 spacecraft launched from the Kennedy Space Center in Florida. Its mission was to go where no human being had gone before—the moon! The crew consisted of Neil Armstrong, Michael Collins, and Buzz Aldrin. The spacecraft landed on the moon in the Sea of Tranquility, a basaltic flood plain, on July 20, 1969. The moonwalk took place the following day. On July 21, 1969, at precisely 10:56 EDT, Commander Neil Armstrong emerged from the Lunar Module and took his famous first step onto the moon’s surface. He declared, “That’s one small step for man, one giant leap for mankind.” It was a monumental moment in human history!",
+"It was July 21, 1969, and Neil Armstrong awoke with a start. It was the day he would become the first human being to ever walk on the moon. The journey had begun several days earlier, when on July 16th, the Apollo 11 launched from Earth headed into outer space. On board with Neil Armstrong were Michael Collins and Buzz Aldrin. The crew landed on the moon in the Sea of Tranquility a day before the actual walk. Upon Neil’s first step onto the moon’s surface, he declared, “That’s one small step for man, one giant leap for mankind.” It sure was!",
+"Here is the perfect system for cleaning your room. First, move all of the items that do not have a proper place to the center of the room. Get rid of at least five things that you have not used within the last year. Take out all of the trash, and place all of the dirty dishes in the kitchen sink. Now find a location for each of the items you had placed in the center of the room. For any remaining items, see if you can squeeze them in under your bed or stuff them into the back of your closet. See, that was easy!", "The Blue Whales just played their first baseball game of the new season; I believe there is much to be excited about. Although they lost, it was against an excellent team that had won the championship last year. The Blue Whales fell behind early but showed excellent teamwork and came back to tie the game. The team had 15 hits and scored 8 runs. That’s excellent! Unfortunately, they had 5 fielding errors, which kept the other team in the lead the entire game. The game ended with the umpire making a bad call, and if the call had gone the other way, the Blue Whales might have actually won the game. It wasn’t a victory, but I say the Blue Whales look like they have a shot at the championship, especially if they continue to improve."
+];
+
+
+const msg =document.getElementById('msg');
+const typeword = document.getElementById('mywords');
+const btn =document.getElementById('btn');
+let startTime, endTime;
+
+
+const playGame = () => {
+
+  let randomNumber = Math.round(Math.random()*setOfwords.length);
+  msg.innerText = setOfwords[randomNumber];
+  let date = new Date();
+  startTime = date.getTime();
+  btn.innerText = "Done";
+}
+
+const endplay = () =>{
+
+  let date = new Date();
+  endTime = date.getTime();
+  let totalTime = ((endTime - startTime)/ 1000);
+  let totalstr = typeword.value;
+  let wordcount = wordcounter(totalstr);
+  let speed = Math.round((wordcount / totalTime) * 60 );
+
+  let finalmsg = " you typed total at " + speed + " words per minute. ";
+  finalmsg += campareword( msg.innerText , totalstr);
+  msg.innerText = finalmsg;
+}
+
+const campareword = (str1, str2) =>{
+  let words1 = str1.split(" ");
+  let words2 = str2.split(" ");
+  let cnt = 0;
+let  w = words1.length;
+  words1.forEach(function(item, index) {
+
+    if(item == words2[index]) {
+      cnt++;
+    }
+  })
+  let errorwords = ( w - cnt );
+  return (cnt + " correct out of " + w + " words and total number of error are " +errorwords+ ".");
+}
+
+const wordcounter = (str) => {
+  let response = str.split(" ").length;
+  console.log(response);
+  return response;
+}
+
+btn.addEventListener('click', function(){
+
+  if(this.innerText == 'Start'){
+    typeword.disabled = false;
+    playGame();
+  }else if(this.innerText == 'Done'){
+    typeword.disabled = true;
+    btn.innerText = "Start";
+    endplay();
+  }
+})
+</script>
+</body>
+</html>
